@@ -95,10 +95,11 @@ def get_all_latest_django_versions() -> tuple[DjVersion, list[DjVersion]]:
     _, current_version_str = get_name_and_version(line)
     # Get a tuple of (major, minor) - ignoring patch version
     current_minor_version = DjVersion.parse(current_version_str)
-    newer_versions: set[DjVersion] = set()
-    for django_version in get_django_versions():
-        if django_version > current_minor_version:
-            newer_versions.add(django_version)
+    newer_versions: set[DjVersion] = {
+        django_version
+        for django_version in get_django_versions()
+        if django_version > current_minor_version
+    }
 
     return current_minor_version, sorted(newer_versions, reverse=True)
 
@@ -191,11 +192,12 @@ class GitHubManager:
         """
         # If issue previously existed, find package and skip any gtg, manually
         # updated packages, or known releases that will happen but haven't yet
-        if issue := self.existing_issues.get(needed_dj_version):
-            if index := issue.body.find(package_name):
-                name, _current, prev_compat, ok = issue.body[index:].split("|", 4)[:4]
-                if ok in ("✅", "❓", "🕒"):
-                    return prev_compat, ok
+        if (issue := self.existing_issues.get(needed_dj_version)) and (
+            index := issue.body.find(package_name)
+        ):
+            name, _current, prev_compat, ok = issue.body[index:].split("|", 4)[:4]
+            if ok in ("✅", "❓", "🕒"):
+                return prev_compat, ok
 
         if package_name in VITAL_BUT_UNKNOWN:
             return "", "❓"

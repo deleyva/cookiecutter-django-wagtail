@@ -182,18 +182,17 @@ def set_flag(file_path, flag, value=None, formatted=None, *args, **kwargs):
 
 
 def set_django_secret_key(file_path):
-    django_secret_key = set_flag(
+    return set_flag(
         file_path,
         "!!!SET DJANGO_SECRET_KEY!!!",
         length=64,
         using_digits=True,
         using_ascii_letters=True,
     )
-    return django_secret_key
 
 
 def set_django_admin_url(file_path):
-    django_admin_url = set_flag(
+    return set_flag(
         file_path,
         "!!!SET DJANGO_ADMIN_URL!!!",
         formatted="{}/",
@@ -201,11 +200,10 @@ def set_django_admin_url(file_path):
         using_digits=True,
         using_ascii_letters=True,
     )
-    return django_admin_url
 
 
 def set_wagtail_admin_url(file_path):
-    wagtail_admin_url = set_flag(
+    return set_flag(
         file_path,
         "!!!SET WAGTAIL_ADMIN_URL!!!",
         formatted="{}/",
@@ -213,7 +211,6 @@ def set_wagtail_admin_url(file_path):
         using_digits=True,
         using_ascii_letters=True,
     )
-    return wagtail_admin_url
 
 
 def generate_random_user():
@@ -225,12 +222,11 @@ def generate_postgres_user(debug=False):
 
 
 def set_postgres_user(file_path, value):
-    postgres_user = set_flag(file_path, "!!!SET POSTGRES_USER!!!", value=value)
-    return postgres_user
+    return set_flag(file_path, "!!!SET POSTGRES_USER!!!", value=value)
 
 
 def set_postgres_password(file_path, value=None):
-    postgres_password = set_flag(
+    return set_flag(
         file_path,
         "!!!SET POSTGRES_PASSWORD!!!",
         value=value,
@@ -238,18 +234,16 @@ def set_postgres_password(file_path, value=None):
         using_digits=True,
         using_ascii_letters=True,
     )
-    return postgres_password
 
 
 def set_celery_flower_user(file_path, value):
-    celery_flower_user = set_flag(
+    return set_flag(
         file_path, "!!!SET CELERY_FLOWER_USER!!!", value=value
     )
-    return celery_flower_user
 
 
 def set_celery_flower_password(file_path, value=None):
-    celery_flower_password = set_flag(
+    return set_flag(
         file_path,
         "!!!SET CELERY_FLOWER_PASSWORD!!!",
         value=value,
@@ -257,7 +251,6 @@ def set_celery_flower_password(file_path, value=None):
         using_digits=True,
         using_ascii_letters=True,
     )
-    return celery_flower_password
 
 
 def append_to_gitignore_file(s):
